@@ -48,25 +48,26 @@ public class FlutterHelpScoutPlugin implements FlutterPlugin, MethodCallHandler,
     final Map<String, Object> arguments = call.arguments();
 
     // this will initialize the beacon
-    if (call.method.equals("initialize")) {
-      beaconHelpers.initialize((String) arguments.get("beaconId"));
-      beaconHelpers.identity((String) arguments.get("email"), (String) arguments.get("name"), (String) arguments.get("avatar"), (String) arguments.get("company"), (String) arguments.get("jobTitle"));
-      result.success("Beacon successfully initialized!");
-    }
-    // open the beacon
-    else if(call.method.equals("openBeacon")){
-      beaconHelpers.openBeacon(context);
-      result.success("Beacon successfully opened!");
-    }
-
-    else if(call.method.equals("logoutBeacon")){
-      beaconHelpers.logout();
-      result.success("Beacon successfully logged out!");
-    }
-
-    else if(call.method.equals("clearBeacon")){
-      beaconHelpers.logout();
-      result.success("Beacon successfully cleared!");
+    switch (call.method) {
+      case "initialize":
+        assert arguments != null;
+        beaconHelpers.initialize((String) arguments.get("beaconId"));
+        beaconHelpers.identity((String) arguments.get("email"), (String) arguments.get("name"), (String) arguments.get("avatar"), (String) arguments.get("company"), (String) arguments.get("jobTitle"));
+        result.success("Beacon successfully initialized!");
+        break;
+      // open the beacon
+      case "openBeacon":
+        beaconHelpers.openBeacon(context);
+        result.success("Beacon successfully opened!");
+        break;
+      case "logoutBeacon":
+        beaconHelpers.logout();
+        result.success("Beacon successfully logged out!");
+        break;
+      case "clearBeacon":
+        beaconHelpers.logout();
+        result.success("Beacon successfully cleared!");
+        break;
     }
 
   }
